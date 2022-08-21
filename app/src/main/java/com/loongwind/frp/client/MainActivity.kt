@@ -1,20 +1,34 @@
 package com.loongwind.frp.client
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.os.IBinder
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
 import com.loongwind.frp.client.databinding.ActivityMainBinding
+import com.loongwind.frp.client.model.IniConfig
+import com.loongwind.frp.client.service.FrpcService
+import com.loongwind.frp.client.ui.FrpServiceActivity
+import com.loongwind.frp.client.utils.readIniCfg
+import com.loongwind.frp.client.utils.writeIniCfg
+import io.objectbox.Box
+import org.koin.android.ext.android.get
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +43,17 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+//            startService(Intent(this, FrpcService::class.java))
+//            startFrpc()
+//            val config = readIniCfg(File(filesDir, "config.ini").absolutePath)
+//            println(config)
+
+//            val config = get<Box<IniConfig>>().all.first()
+//            writeIniCfg(File(filesDir, "config4.ini").absolutePath, config)
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+
+            startActivity(Intent(this, FrpServiceActivity::class.java))
         }
     }
 
