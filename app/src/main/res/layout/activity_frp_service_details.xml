@@ -6,14 +6,13 @@
     <data>
         <variable
             name="vm"
-            type="com.loongwind.frp.client.vm.FrpServiceVM" />
+            type="com.loongwind.frp.client.vm.FrpServiceDetailsVM" />
 
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.FrpServiceActivity">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -34,13 +33,23 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <include
+                android:id="@+id/service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/item_service"
+                app:item="@{vm.config}"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:data="@{vm.configList}"
-                app:itemLayout="@{@layout/item_service}"
-                app:itemClick="@{(item,p)->vm.onItemClick(item)}"/>
+                app:layout_constraintTop_toBottomOf="@id/service"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:data="@{vm.clientConfigs}"
+                app:itemLayout="@{@layout/item_config_tcp}"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,6 +1,7 @@
 package com.loongwind.frp.client.ext
 
 import com.loongwind.frp.client.model.IniConfig
+import com.loongwind.frp.client.model.IniSection
 
 
 fun IniConfig.getAddrAndPort() : String{
@@ -17,4 +18,11 @@ fun IniConfig.getAddrAndPort() : String{
 
         "$serverAddr:$serverPort"
     } ?: ""
+}
+
+
+fun IniSection.get(key:String) : String?{
+    return configs.firstOrNull{
+        it.key == key
+    }?.value
 }

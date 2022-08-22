@@ -4,6 +4,8 @@ import android.content.Intent
 import com.loongwind.ardf.base.BaseBindingViewModelActivity
 import com.loongwind.ardf.base.ext.toast
 import com.loongwind.frp.client.constant.EVENT_ADD_SERVICE
+import com.loongwind.frp.client.constant.EVENT_CLICK_ITEM
+import com.loongwind.frp.client.constant.KEY_ID
 import com.loongwind.frp.client.databinding.ActivityFrpServiceBinding
 import com.loongwind.frp.client.vm.FrpServiceVM
 
@@ -14,6 +16,15 @@ class FrpServiceActivity : BaseBindingViewModelActivity<ActivityFrpServiceBindin
         super.onEvent(eventId)
         when(eventId){
             EVENT_ADD_SERVICE -> startActivity(Intent(this, ConfigActivity::class.java))
+            EVENT_CLICK_ITEM -> toFrpServiceDetails()
+        }
+    }
+
+    private fun toFrpServiceDetails(){
+        viewModel.clickItem?.let {
+            val intent = Intent(this, FrpServiceDetailsActivity::class.java)
+            intent.putExtra(KEY_ID, it.id)
+            startActivity(intent)
         }
     }
 }

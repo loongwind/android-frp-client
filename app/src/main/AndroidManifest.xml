@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.loongwind.frp.client">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".App"
@@ -29,15 +29,20 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.FrpcService"/>
+        <service android:name=".service.FrpcService" />
+
         <activity
             android:name=".ui.FrpServiceActivity"
-            android:label="FrpService"
-            />
+            android:label="FrpService" />
         <activity
             android:name=".ui.ConfigActivity"
-            android:label="FrpcConfig"
-            />
+            android:label="FrpcConfig" />
+        <activity
+            android:name=".ui.FrpServiceDetailsActivity"
+            android:label="FrpcConfig" />
+        <activity
+            android:name=".ui.FrpAddConfigActivity"
+            android:label="FrpcConfig" />
     </application>
 
 </manifest>

@@ -7,7 +7,6 @@ import io.objectbox.kotlin.query
 import io.objectbox.query.QueryBuilder
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.lang.Exception
 
 class IniRepository : KoinComponent{
 
@@ -22,6 +21,10 @@ class IniRepository : KoinComponent{
             equal(IniConfig_.name, name, QueryBuilder.StringOrder.CASE_INSENSITIVE)
         }.findFirst()
         return config
+    }
+
+    fun getConfigById(id: Long): IniConfig? {
+        return iniConfigBox.get(id)
     }
 
     fun getAllConfig() : List<IniConfig>?{
