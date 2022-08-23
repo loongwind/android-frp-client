@@ -2,8 +2,7 @@ package com.loongwind.frp.client.vm
 
 import androidx.databinding.ObservableField
 import com.loongwind.ardf.base.BaseViewModel
-import com.loongwind.frp.client.constant.EVENT_ADD
-import com.loongwind.frp.client.constant.EVENT_RESULT_SUCCESS
+import com.loongwind.frp.client.constant.*
 import com.loongwind.frp.client.model.IniProperty
 import com.loongwind.frp.client.model.IniSection
 import com.loongwind.frp.client.repository.IniRepository
@@ -29,10 +28,10 @@ class FrpAddConfigVM : BaseViewModel(), KoinComponent {
 
     private fun saveTcpConfig(){
         val iniSection = IniSection(name = name.get() ?: "")
-        iniSection.configs.add(IniProperty(key = "type", value = type.get() ?: ""))
-        iniSection.configs.add(IniProperty(key = "local_ip", value = localIp.get() ?: ""))
-        iniSection.configs.add(IniProperty(key = "local_port", value = localPort.get() ?: ""))
-        iniSection.configs.add(IniProperty(key = "remote_port", value = remotePort.get() ?: ""))
+        iniSection.configs.add(IniProperty(key = ATTR_TYPE, value = type.get() ?: ""))
+        iniSection.configs.add(IniProperty(key = ATTR_LOCAL_IP, value = localIp.get() ?: ""))
+        iniSection.configs.add(IniProperty(key = ATTR_LOCAL_PORT, value = localPort.get() ?: ""))
+        iniSection.configs.add(IniProperty(key = ATTR_REMOTE_PORT, value = remotePort.get() ?: ""))
 
         iniRepository.getConfigById(id)?.let {
             it.sections.add(iniSection)
