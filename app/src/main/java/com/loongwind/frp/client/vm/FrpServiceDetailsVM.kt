@@ -4,6 +4,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
 import com.loongwind.ardf.base.BaseViewModel
 import com.loongwind.frp.client.constant.EVENT_ADD
+import com.loongwind.frp.client.constant.EVENT_DETAILS
 import com.loongwind.frp.client.model.IniConfig
 import com.loongwind.frp.client.model.IniSection
 import com.loongwind.frp.client.repository.IniRepository
@@ -37,6 +38,9 @@ class FrpServiceDetailsVM : BaseViewModel(), KoinComponent {
         postEvent(EVENT_ADD)
     }
 
+    fun onServiceEdit(){
+        postEvent(EVENT_DETAILS)
+    }
 
 
 

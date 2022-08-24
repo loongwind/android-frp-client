@@ -2,18 +2,30 @@ package com.loongwind.frp.client.repository
 
 import com.loongwind.frp.client.model.IniConfig
 import com.loongwind.frp.client.model.IniConfig_
+import com.loongwind.frp.client.model.IniProperty
+import com.loongwind.frp.client.model.IniSection
 import io.objectbox.Box
 import io.objectbox.kotlin.query
 import io.objectbox.query.QueryBuilder
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.koin.core.qualifier.named
 
 class IniRepository : KoinComponent{
 
-    private val iniConfigBox : Box<IniConfig> by inject()
+    private val iniConfigBox : Box<IniConfig> by inject(named<IniConfig>())
+    private val iniSectionBox : Box<IniSection> by inject(named<IniSection>())
+    private val iniPropertyBox : Box<IniProperty> by inject(named<IniProperty>())
 
-    fun savConfig(iniConfig:IniConfig){
+    fun saveConfig(iniConfig:IniConfig){
         iniConfigBox.put(iniConfig)
+
+        iniConfig.sections.filter { it.id > 0 }.forEach { section ->
+            iniSectionBox.put(section)
+            section.configs.filter { it.id > 0 }.forEach {
+                iniPropertyBox.put(it)
+            }
+        }
     }
 
     fun getConfigByName(name: String) : IniConfig?{
@@ -37,7 +49,7 @@ class IniRepository : KoinComponent{
         val content = StringBuffer()
         config?.sections?.forEach { section ->
             content.append("[${section.name}]\n")
-            section.configs.forEach {
+            section.configs.filter { it.value.isNotEmpty() }.forEach {
                 content.append("${it.key} = ${it.value}\n")
             }
             content.append("\n")

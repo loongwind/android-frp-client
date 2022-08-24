@@ -35,7 +35,7 @@ class FrpAddConfigVM : BaseViewModel(), KoinComponent {
 
         iniRepository.getConfigById(id)?.let {
             it.sections.add(iniSection)
-            iniRepository.savConfig(it)
+            iniRepository.saveConfig(it)
         }
         postEvent(EVENT_RESULT_SUCCESS)
     }
