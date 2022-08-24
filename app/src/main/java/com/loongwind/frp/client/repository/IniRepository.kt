@@ -30,4 +30,18 @@ class IniRepository : KoinComponent{
     fun getAllConfig() : List<IniConfig>?{
         return iniConfigBox.all
     }
+
+
+    fun generateConfigContent(id: Long) : String{
+        val config = getConfigById(id)
+        val content = StringBuffer()
+        config?.sections?.forEach { section ->
+            content.append("[${section.name}]\n")
+            section.configs.forEach {
+                content.append("${it.key} = ${it.value}\n")
+            }
+            content.append("\n")
+        }
+        return content.toString()
+    }
 }

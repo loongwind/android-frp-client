@@ -1,5 +1,7 @@
 package com.loongwind.frp.client.constant
 
+const val CONFIG_FILE_NAME = "config.ini"
+const val CMD_FILE_NAME = "libfrpc.so"
 
 const val COMMON = "common"
 const val ATTR_SERVER_ADDR = "server_addr"

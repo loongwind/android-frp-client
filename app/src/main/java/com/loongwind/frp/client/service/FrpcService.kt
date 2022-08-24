@@ -5,16 +5,22 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.loongwind.frp.client.MainActivity
 import com.loongwind.frp.client.R
+import com.loongwind.frp.client.constant.CMD_FILE_NAME
+import com.loongwind.frp.client.constant.CONFIG_FILE_NAME
+import com.loongwind.frp.client.constant.KEY_ID
+import com.loongwind.frp.client.repository.IniRepository
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
-class FrpcService : Service() {
+class FrpcService : Service(), KoinComponent {
+
+    private val iniRepository by inject<IniRepository>()
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -24,31 +30,16 @@ class FrpcService : Service() {
         super.onCreate()
     }
 
-    private fun startFrp() {
-        val ainfo =
+    private fun startFrp(id: Long) {
+        val iniConfigContent = iniRepository.generateConfigContent(id)
+        val applicationInfo =
             packageManager.getApplicationInfo(packageName, PackageManager.GET_SHARED_LIBRARY_FILES)
-
-                this.openFileOutput("config.ini", Context.MODE_PRIVATE).use {
-                    it.write("""
-                        [common]
-                        server_addr = 116.63.154.157
-                        server_port = 7000
-                        admin_port = 7400
-                        admin_user = dxmh
-                        admin_pwd = dxmh2020
-                        log_file = ./frpc.log
-
-                        [home-gateway]
-                        type = tcp
-                        local_ip = 192.168.1.1
-                        local_port = 80
-                        remote_port = 8881
-                    """.trimIndent().toByteArray())
-                }
-
+        this.openFileOutput(CONFIG_FILE_NAME, Context.MODE_PRIVATE).use {
+            it.write(iniConfigContent.toByteArray())
+        }
         val p = Runtime.getRuntime()
             .exec(
-                "${ainfo.nativeLibraryDir}/libfrpc.so -c config.ini",
+                "${applicationInfo.nativeLibraryDir}/$CMD_FILE_NAME -c $CONFIG_FILE_NAME",
                 arrayOf(""),
                 this.filesDir
             )
@@ -56,7 +47,8 @@ class FrpcService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startFrp()
+        val id = intent?.getLongExtra(KEY_ID, 0) ?: 0
+        startFrp(id)
         return START_NOT_STICKY
     }
 
@@ -66,18 +58,19 @@ class FrpcService : Service() {
             Intent(this, MainActivity::class.java).let { notificationIntent ->
                 PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             }
-        val notification: Notification = NotificationCompat.Builder(this, createNotificationChannel("frpclient", "FrpcService"))
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("frp后台服务")
-            .setContentText("已启动frp")
-            .setContentIntent(pendingIntent)
-            .build()
+        val notification: Notification =
+            NotificationCompat.Builder(this, createNotificationChannel("frpclient", "FrpcService"))
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("frp后台服务")
+                .setContentText("已启动frp")
+                .setContentIntent(pendingIntent)
+                .build()
         startForeground(1, notification)
     }
 
     private fun createNotificationChannel(channelId: String, channelName: String): String {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val chan =NotificationChannel(
+            val chan = NotificationChannel(
                 channelId,
                 channelName, NotificationManager.IMPORTANCE_NONE
             )
