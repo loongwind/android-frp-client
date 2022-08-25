@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/fragment_home"
+            android:enabled="true"
+            android:icon="@drawable/ic_home"
+            android:title="首页"/>
+        <item
+            android:id="@+id/fragment_config"
+            android:enabled="true"
+            android:icon="@drawable/ic_config"
+            android:title="配置"/>
+        <item
+            android:id="@+id/fragment_mine"
+            android:enabled="true"
+            android:icon="@drawable/ic_mine"
+            android:title="我的"/>
+</menu>

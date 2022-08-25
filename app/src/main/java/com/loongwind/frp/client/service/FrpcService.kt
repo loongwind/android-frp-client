@@ -8,7 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.loongwind.frp.client.MainActivity
+import com.loongwind.frp.client.ui.MainActivity
 import com.loongwind.frp.client.R
 import com.loongwind.frp.client.constant.*
 import com.loongwind.frp.client.repository.IniRepository

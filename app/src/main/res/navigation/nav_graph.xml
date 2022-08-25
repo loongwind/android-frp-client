@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/HomeServiceFragment">
+    app:startDestination="@id/fragment_home">
 
     <fragment
-        android:id="@+id/HomeServiceFragment"
+        android:id="@+id/fragment_home"
         android:name="com.loongwind.frp.client.ui.HomeServiceFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_home_frp_service">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.loongwind.frp.client.SecondFragment"
+        android:id="@+id/fragment_config"
+        android:name="com.loongwind.frp.client.ui.FrpServiceFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/activity_frp_service">
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/HomeServiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_mine"
+        android:name="com.loongwind.frp.client.FirstFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
+
     </fragment>
 </navigation>
