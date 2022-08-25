@@ -5,4 +5,5 @@ const val EVENT_CLICK_ITEM = 0xf002
 const val EVENT_ADD = 0xf003
 const val EVENT_RESULT_SUCCESS = 0xf004
 const val EVENT_START_SERVICE = 0xf005
-const val EVENT_DETAILS = 0xf006
+const val EVENT_STOP_SERVICE = 0xf006
+const val EVENT_DETAILS = 0xf007

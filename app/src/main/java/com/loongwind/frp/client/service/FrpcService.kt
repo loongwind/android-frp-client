@@ -10,9 +10,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.loongwind.frp.client.MainActivity
 import com.loongwind.frp.client.R
-import com.loongwind.frp.client.constant.CMD_FILE_NAME
-import com.loongwind.frp.client.constant.CONFIG_FILE_NAME
-import com.loongwind.frp.client.constant.KEY_ID
+import com.loongwind.frp.client.constant.*
 import com.loongwind.frp.client.repository.IniRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -22,6 +20,8 @@ class FrpcService : Service(), KoinComponent {
 
     private val iniRepository by inject<IniRepository>()
 
+    private var process: Process? = null
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -30,14 +30,15 @@ class FrpcService : Service(), KoinComponent {
         super.onCreate()
     }
 
-    private fun startFrp(id: Long) {
+    private fun startFrpc(id: Long) {
         val iniConfigContent = iniRepository.generateConfigContent(id)
         val applicationInfo =
             packageManager.getApplicationInfo(packageName, PackageManager.GET_SHARED_LIBRARY_FILES)
         this.openFileOutput(CONFIG_FILE_NAME, Context.MODE_PRIVATE).use {
             it.write(iniConfigContent.toByteArray())
         }
-        val p = Runtime.getRuntime()
+        process?.destroy()
+        process = Runtime.getRuntime()
             .exec(
                 "${applicationInfo.nativeLibraryDir}/$CMD_FILE_NAME -c $CONFIG_FILE_NAME",
                 arrayOf(""),
@@ -46,10 +47,26 @@ class FrpcService : Service(), KoinComponent {
         showNotification()
     }
 
+    private fun stopFrpc(){
+        process?.destroy()
+        stopForeground(true)
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val id = intent?.getLongExtra(KEY_ID, 0) ?: 0
-        startFrp(id)
+        val type = intent?.getIntExtra(KEY_TYPE, TYPE_START_SERVICE)
+        if(type == TYPE_START_SERVICE){
+            startFrpc(id)
+        }else{
+            stopFrpc()
+        }
         return START_NOT_STICKY
+    }
+
+    override fun onDestroy() {
+        process?.destroy()
+        process = null
+        super.onDestroy()
     }
 
 

@@ -50,7 +50,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/connectStatus"
                 app:layout_constraintRight_toRightOf="parent"
                 android:onClick="@{()->vm.switchConnect()}"
-                android:checked="@{vm.isConnect()}"
+                android:checked="@={vm.isConnect()}"
                 android:layout_marginRight="15dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
