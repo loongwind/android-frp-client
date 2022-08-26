@@ -12,6 +12,10 @@ import com.loongwind.frp.client.vm.HomeVM
 class HomeFragment : BaseBindingViewModelFragment<FragmentHomeBinding, HomeVM>() {
 
 
+    override fun initDataBinding(binding: FragmentHomeBinding) {
+        super.initDataBinding(binding)
+    }
+
     override fun onEvent(eventId: Int) {
         super.onEvent(eventId)
         when(eventId){
