@@ -1,6 +1,7 @@
 package com.loongwind.frp.client.vm
 
 import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableField
 import androidx.databinding.ObservableList
 import com.loongwind.ardf.base.BaseViewModel
 import com.loongwind.frp.client.constant.EVENT_ADD_SERVICE
@@ -14,13 +15,16 @@ class FrpServiceVM : BaseViewModel(), KoinComponent {
 
     val configList = ObservableArrayList<IniConfig>()
     private val iniRepository : IniRepository by inject()
+
+    val selectedConfig = ObservableField<IniConfig>()
+    var isSelectMode = false
     var clickItem:IniConfig? = null
-
+    private val dataChangeObserver : (List<IniConfig>)->Unit = { list ->
+        configList.clear()
+        configList.addAll(list)
+    }
     init {
-        iniRepository.getAllConfig()?.let {
-            configList.addAll(it)
-        }
-
+        iniRepository.getAllConfigLiveData().observeForever(dataChangeObserver)
     }
 
     fun add(){
@@ -29,9 +33,20 @@ class FrpServiceVM : BaseViewModel(), KoinComponent {
 
     fun onItemClick(item:Any){
         if(item is IniConfig){
-            clickItem = item
-            postEvent(EVENT_CLICK_ITEM)
+            if(isSelectMode){
+                selectedConfig.set(item)
+                back()
+            }else{
+                clickItem = item
+                postEvent(EVENT_CLICK_ITEM)
+            }
         }
     }
+
+    override fun onCleared() {
+        iniRepository.getAllConfigLiveData().removeObserver(dataChangeObserver)
+        super.onCleared()
+    }
+
 
 }

@@ -5,7 +5,10 @@ import com.loongwind.frp.client.model.IniProperty
 import com.loongwind.frp.client.model.IniSection
 
 
-fun IniConfig.getAddrAndPort() : String{
+fun IniConfig?.getAddrAndPort() : String{
+    if(this == null){
+        return ""
+    }
     return  sections.firstOrNull { section ->
         section.name == "common"
     }?.let { section ->
@@ -26,6 +29,11 @@ fun IniSection.get(key:String) : String?{
     return configs.firstOrNull{
         it.key == key
     }?.value
+}
+
+
+fun IniSection.getShowText() : String{
+    return  get("local_ip")+":"+ get("local_port")+" -> "+get("remote_port")
 }
 
 fun IniSection.update(key:String, value:String){

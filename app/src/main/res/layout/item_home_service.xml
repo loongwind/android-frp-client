@@ -12,7 +12,7 @@
 
         <variable
             name="handler"
-            type="com.loongwind.frp.client.vm.HomeServiceVM" />
+            type="com.loongwind.frp.client.vm.HomeVM" />
 
     </data>
 
@@ -53,9 +53,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:checked="@{handler.selectedItem == item}"
-            android:onClick="@{()->handler.onItemCheck(item)}"/>
+            app:layout_constraintRight_toRightOf="parent"/>
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"

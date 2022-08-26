@@ -4,35 +4,30 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.Observer
 import com.loongwind.ardf.base.BaseViewModel
 import com.loongwind.ardf.base.event.EVENT_ITEM_CLICK
-import com.loongwind.frp.client.constant.EVENT_CLICK_ITEM
-import com.loongwind.frp.client.constant.EVENT_START_SERVICE
-import com.loongwind.frp.client.constant.EVENT_STOP_SERVICE
+import com.loongwind.frp.client.constant.*
 import com.loongwind.frp.client.model.IniConfig
+import com.loongwind.frp.client.model.IniSection
 import com.loongwind.frp.client.repository.IniRepository
+import io.objectbox.annotation.Id
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class HomeServiceVM : BaseViewModel(), KoinComponent {
-    val configList = ObservableArrayList<IniConfig>()
-
-    val selectedItem = ObservableField<IniConfig>()
+class HomeVM : BaseViewModel(), KoinComponent {
+    val sectionList = ObservableArrayList<IniSection>()
+    val config = ObservableField<IniConfig>()
 
     val isConnect = ObservableBoolean()
-
-    var clickItem : IniConfig? = null
 
     private val iniRepository by inject<IniRepository>()
 
     init {
-        iniRepository.getAllConfig()?.let {
-            configList.addAll(it)
-        }
         isConnect.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 if(isConnect.get()){
-                    if(selectedItem.get() == null){
+                    if(config.get() == null){
                         isConnect.set(false)
                         postHintText("请选择Frpc服务")
                     }else{
@@ -46,22 +41,15 @@ class HomeServiceVM : BaseViewModel(), KoinComponent {
         })
     }
 
-    fun onItemClick(item:Any){
-        if(item is IniConfig){
-            clickItem = item
-            postEvent(EVENT_CLICK_ITEM)
-        }
-
+    fun loadConfig(id: Long){
+        config.set(iniRepository.getConfigById(id))
+        sectionList.clear()
+        sectionList.addAll(config.get()?.sections?.filter { it.name != COMMON } ?: arrayListOf())
     }
 
-    fun onItemCheck(item:Any){
-        if(item is IniConfig){
-            if(selectedItem.get() == item){
-                selectedItem.set(null)
-            }else{
-                selectedItem.set(item)
-            }
-        }
+
+    fun onSelectConfig(){
+        postEvent(EVENT_SELECT)
     }
 
     fun switchConnect(){

@@ -40,6 +40,9 @@
         <activity
             android:name=".ui.FrpAddConfigActivity"
             android:label="FrpcConfig" />
+        <activity
+            android:name=".ui.FrpcConfigListActivity"
+            android:label="FrpcConfigList" />
     </application>
 
 </manifest>

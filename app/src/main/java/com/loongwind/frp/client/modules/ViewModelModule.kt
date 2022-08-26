@@ -10,6 +10,6 @@ val viewModelModule = module{
     viewModel { ConfigVM() }
     viewModel { FrpServiceDetailsVM() }
     viewModel { FrpAddConfigVM() }
-    viewModel { HomeServiceVM() }
+    viewModel { HomeVM() }
 
 }

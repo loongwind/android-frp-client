@@ -5,6 +5,7 @@ import com.loongwind.frp.client.model.IniConfig_
 import com.loongwind.frp.client.model.IniProperty
 import com.loongwind.frp.client.model.IniSection
 import io.objectbox.Box
+import io.objectbox.android.ObjectBoxLiveData
 import io.objectbox.kotlin.query
 import io.objectbox.query.QueryBuilder
 import org.koin.core.component.KoinComponent
@@ -16,6 +17,8 @@ class IniRepository : KoinComponent{
     private val iniConfigBox : Box<IniConfig> by inject(named<IniConfig>())
     private val iniSectionBox : Box<IniSection> by inject(named<IniSection>())
     private val iniPropertyBox : Box<IniProperty> by inject(named<IniProperty>())
+
+    private var allConfigLiveData : ObjectBoxLiveData<IniConfig>? = null
 
     fun saveConfig(iniConfig:IniConfig){
         iniConfigBox.put(iniConfig)
@@ -41,6 +44,15 @@ class IniRepository : KoinComponent{
 
     fun getAllConfig() : List<IniConfig>?{
         return iniConfigBox.all
+    }
+
+    fun getAllConfigLiveData() : ObjectBoxLiveData<IniConfig>{
+        var configs = allConfigLiveData
+        if(configs == null){
+            configs = ObjectBoxLiveData(iniConfigBox.query().build())
+            allConfigLiveData = configs
+        }
+        return configs
     }
 
 

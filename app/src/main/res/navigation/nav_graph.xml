@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="com.loongwind.frp.client.ui.HomeServiceFragment"
+        android:name="com.loongwind.frp.client.ui.HomeFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_home_frp_service">
+        tools:layout="@layout/fragment_home">
     </fragment>
     <fragment
         android:id="@+id/fragment_config"
