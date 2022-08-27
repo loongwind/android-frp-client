@@ -28,7 +28,9 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/Theme.FrpClient.PopupOverlay"
                 app:title="配置列表"
-                app:titleGravity="@{Gravity.CENTER}"/>
+                app:titleGravity="@{Gravity.CENTER}"
+                app:showBack="@{vm.isSelectMode}"
+                app:navigationOnClickListener="@{()->vm.back()}"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

@@ -33,15 +33,19 @@
 
         <activity
             android:name=".ui.ConfigActivity"
+            android:theme="@style/Theme.FrpClient.NoActionBar"
             android:label="FrpcConfig" />
         <activity
             android:name=".ui.FrpServiceDetailsActivity"
-            android:label="FrpcConfig" />
+            android:theme="@style/Theme.FrpClient.NoActionBar"
+            android:label="FrpService" />
         <activity
             android:name=".ui.FrpAddConfigActivity"
+            android:theme="@style/Theme.FrpClient.NoActionBar"
             android:label="FrpcConfig" />
         <activity
             android:name=".ui.FrpcConfigListActivity"
+            android:theme="@style/Theme.FrpClient.NoActionBar"
             android:label="FrpcConfigList" />
     </application>
 

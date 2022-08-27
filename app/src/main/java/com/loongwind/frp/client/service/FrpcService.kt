@@ -26,10 +26,6 @@ class FrpcService : Service(), KoinComponent {
         return null
     }
 
-    override fun onCreate() {
-        super.onCreate()
-    }
-
     private fun startFrpc(id: Long) {
         val iniConfigContent = iniRepository.generateConfigContent(id)
         val applicationInfo =

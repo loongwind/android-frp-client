@@ -9,6 +9,8 @@
             name="vm"
             type="com.loongwind.frp.client.vm.ConfigVM" />
 
+        <import type="android.view.Gravity"/>
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -21,12 +23,16 @@
             android:layout_height="wrap_content"
             android:theme="@style/Theme.FrpClient.AppBarOverlay">
 
-            <!--            <androidx.appcompat.widget.Toolbar-->
-            <!--                android:id="@+id/toolbar"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="?attr/actionBarSize"-->
-            <!--                android:background="?attr/colorPrimary"-->
-            <!--                app:popupTheme="@style/Theme.FrpClient.PopupOverlay" />-->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.FrpClient.PopupOverlay"
+                app:title="新增服务"
+                app:titleGravity="@{Gravity.CENTER}"
+                app:showBack="@{true}"
+                app:navigationOnClickListener="@{()->vm.back()}"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

@@ -73,6 +73,11 @@ class ConfigVM : BaseViewModel(), KoinComponent{
         iniSection.update(ATTR_SERVER_PORT, servicePort.get() ?: "")
         iniSection.update(ATTR_TOKEN, token.get() ?: "")
 
+        iniSection.update(ATTR_ADMIN_PORT, DEFAULT_ADMIN_PORT)
+        iniSection.update(ATTR_ADMIN_USER, DEFAULT_ADMIN_USER)
+        iniSection.update(ATTR_ADMIN_PWD, DEFAULT_ADMIN_PWD)
+        iniSection.update(ATTR_LOG_FILE, DEFAULT_LOG_FILE)
+
         println(iniConfig)
         return iniConfig
     }

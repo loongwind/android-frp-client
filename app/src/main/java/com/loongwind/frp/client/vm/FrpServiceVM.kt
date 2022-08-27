@@ -6,6 +6,7 @@ import androidx.databinding.ObservableList
 import com.loongwind.ardf.base.BaseViewModel
 import com.loongwind.frp.client.constant.EVENT_ADD_SERVICE
 import com.loongwind.frp.client.constant.EVENT_CLICK_ITEM
+import com.loongwind.frp.client.constant.EVENT_RESULT
 import com.loongwind.frp.client.model.IniConfig
 import com.loongwind.frp.client.repository.IniRepository
 import org.koin.core.component.KoinComponent
@@ -35,7 +36,7 @@ class FrpServiceVM : BaseViewModel(), KoinComponent {
         if(item is IniConfig){
             if(isSelectMode){
                 selectedConfig.set(item)
-                back()
+                postEvent(EVENT_RESULT)
             }else{
                 clickItem = item
                 postEvent(EVENT_CLICK_ITEM)
