@@ -124,7 +124,8 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:background="@drawable/bg_round_rect"
                     app:data="@{vm.clientConfigs}"
-                    app:itemLayout="@{@layout/item_config_tcp}"/>
+                    app:itemLayout="@{@layout/item_config_tcp}"
+                    app:itemClick="@{(item, position) -> vm.onConfigEdit(item)}"/>
             </FrameLayout>
 
 

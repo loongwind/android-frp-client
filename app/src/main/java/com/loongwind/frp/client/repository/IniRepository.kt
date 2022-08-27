@@ -6,6 +6,7 @@ import com.loongwind.frp.client.model.IniProperty
 import com.loongwind.frp.client.model.IniSection
 import io.objectbox.Box
 import io.objectbox.android.ObjectBoxLiveData
+import io.objectbox.kotlin.equal
 import io.objectbox.kotlin.query
 import io.objectbox.query.QueryBuilder
 import org.koin.core.component.KoinComponent
@@ -42,6 +43,11 @@ class IniRepository : KoinComponent{
         return iniConfigBox.get(id)
     }
 
+
+    fun getConfigLiveDataById(id: Long): ObjectBoxLiveData<IniConfig> {
+        return ObjectBoxLiveData(iniConfigBox.query().equal(IniConfig_.id, id).build())
+    }
+
     fun getAllConfig() : List<IniConfig>?{
         return iniConfigBox.all
     }
@@ -67,5 +73,16 @@ class IniRepository : KoinComponent{
             content.append("\n")
         }
         return content.toString()
+    }
+
+    fun getSectionById(id:Long) : IniSection?{
+        return iniSectionBox.get(id)
+    }
+
+    fun saveSection(section: IniSection){
+        iniSectionBox.put(section)
+        section.configs.filter { it.id > 0 }.forEach {
+            iniPropertyBox.put(it)
+        }
     }
 }

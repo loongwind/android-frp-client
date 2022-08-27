@@ -4,11 +4,13 @@ import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
 import com.loongwind.ardf.base.BaseViewModel
 import com.loongwind.frp.client.constant.EVENT_ADD
+import com.loongwind.frp.client.constant.EVENT_CLICK_ITEM
 import com.loongwind.frp.client.constant.EVENT_DETAILS
 import com.loongwind.frp.client.model.IniConfig
 import com.loongwind.frp.client.model.IniSection
 import com.loongwind.frp.client.repository.IniRepository
 import io.objectbox.Box
+import io.objectbox.android.ObjectBoxLiveData
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -20,10 +22,11 @@ class FrpServiceDetailsVM : BaseViewModel(), KoinComponent {
 
     var id:Long = 0
 
+    var clickSection : IniSection? = null
+    private var configLiveData : ObjectBoxLiveData<IniConfig>? = null
 
-    fun loadData(id:Long){
-        this.id = id
-        val iniConfig = iniRepository.getConfigById(id)
+    private val configObserver : (List<IniConfig>)->Unit = {
+        val iniConfig = it.firstOrNull()
         config.set(iniConfig)
         iniConfig?.sections?.filter {
             it.name != "common"
@@ -33,6 +36,12 @@ class FrpServiceDetailsVM : BaseViewModel(), KoinComponent {
         }
     }
 
+    fun loadData(id:Long){
+        this.id = id
+        configLiveData = iniRepository.getConfigLiveDataById(id)
+        configLiveData?.observeForever(configObserver)
+    }
+
 
     fun add(){
         postEvent(EVENT_ADD)
@@ -40,6 +49,18 @@ class FrpServiceDetailsVM : BaseViewModel(), KoinComponent {
 
     fun onServiceEdit(){
         postEvent(EVENT_DETAILS)
+    }
+
+    fun onConfigEdit(item : Any){
+        if(item is IniSection){
+            clickSection = item
+            postEvent(EVENT_CLICK_ITEM)
+        }
+    }
+
+    override fun onCleared() {
+        configLiveData?.removeObserver(configObserver)
+        super.onCleared()
     }
 
 
