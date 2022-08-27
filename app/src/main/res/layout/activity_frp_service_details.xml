@@ -38,37 +38,96 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include
-                android:id="@+id/service"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/item_service"
-                app:item="@{vm.config}"/>
 
-            <Button
+            <TextView
+                android:id="@+id/service_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#00000000"
-                app:layout_constraintTop_toTopOf="@id/service"
-                app:layout_constraintBottom_toBottomOf="@id/service"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginRight="15dp"
-                android:padding="0dp"
-                android:text="编辑"
-                android:textColor="#0E71D5"
-                android:textSize="14sp"
-                android:onClick="@{()->vm.onServiceEdit()}"/>
+                android:text="服务："
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/service_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_rect"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/service_label"
+                app:layout_constraintLeft_toLeftOf="parent">
+
+                <include
+                    android:id="@+id/service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/item_service"
+                    app:item="@{vm.config}"
+                    android:onClick="@{()->vm.onServiceEdit()}"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_right_arrow"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/service_layout"
+                    app:layout_constraintBottom_toBottomOf="@id/service_layout"
+                    android:layout_marginRight="20dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--            <Button-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="#00000000"-->
+<!--                app:layout_constraintTop_toTopOf="@id/service"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/service"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
+<!--                android:layout_marginRight="15dp"-->
+<!--                android:padding="0dp"-->
+<!--                android:text="编辑"-->
+<!--                android:textColor="#0E71D5"-->
+<!--                android:textSize="14sp"-->
+<!--                android:onClick="@{()->vm.onServiceEdit()}"/>-->
+
+
+            <TextView
+                android:id="@+id/config_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="配置："
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"
+                android:textColor="#000"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/service_layout"/>
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/service"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:data="@{vm.clientConfigs}"
-                app:itemLayout="@{@layout/item_config_tcp}"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"/>
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"
+                android:paddingTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/config_label"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:background="@drawable/bg_round_rect"
+                    app:data="@{vm.clientConfigs}"
+                    app:itemLayout="@{@layout/item_config_tcp}"/>
+            </FrameLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

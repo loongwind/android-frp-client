@@ -41,7 +41,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@drawable/bg_round_rect"
+                android:layout_margin="15dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:data="@{vm.configList}"
                 app:itemLayout="@{@layout/item_service}"
