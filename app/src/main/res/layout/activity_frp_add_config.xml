@@ -41,75 +41,89 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/configName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="名称"
-                app:layout_constraintTop_toTopOf="parent">
+          <androidx.constraintlayout.widget.ConstraintLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintLeft_toLeftOf="parent"
+              android:background="@drawable/bg_round_rect"
+              android:layout_margin="15dp"
+              android:padding="15dp">
+              <com.google.android.material.textfield.TextInputLayout
+                  style="@style/EditStyle"
+                  android:id="@+id/configName"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:hint="名称"
+                  app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={vm.name}"/>
+                  <com.google.android.material.textfield.TextInputEditText
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@={vm.name}"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+              </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="类型"
-                app:layout_constraintTop_toBottomOf="@id/configName">
+              <com.google.android.material.textfield.TextInputLayout
+                  style="@style/EditStyle"
+                  android:id="@+id/type"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:hint="类型"
+                  app:layout_constraintTop_toBottomOf="@id/configName">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={vm.type}"/>
+                  <com.google.android.material.textfield.TextInputEditText
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@={vm.type}"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+              </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/serviceIp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="本地ip"
-                app:layout_constraintTop_toBottomOf="@id/type">
+              <com.google.android.material.textfield.TextInputLayout
+                  style="@style/EditStyle"
+                  android:id="@+id/serviceIp"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:hint="本地ip"
+                  app:layout_constraintTop_toBottomOf="@id/type">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={vm.localIp}"/>
+                  <com.google.android.material.textfield.TextInputEditText
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@={vm.localIp}"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+              </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/servicePort"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="本地端口"
-                app:layout_constraintTop_toBottomOf="@id/serviceIp">
+              <com.google.android.material.textfield.TextInputLayout
+                  style="@style/EditStyle"
+                  android:id="@+id/servicePort"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:hint="本地端口"
+                  app:layout_constraintTop_toBottomOf="@id/serviceIp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={vm.localPort}"/>
+                  <com.google.android.material.textfield.TextInputEditText
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@={vm.localPort}"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+              </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/serviceUserName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="远程端口"
-                app:layout_constraintTop_toBottomOf="@id/servicePort">
+              <com.google.android.material.textfield.TextInputLayout
+                  style="@style/EditStyle"
+                  android:id="@+id/serviceUserName"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:hint="远程端口"
+                  app:layout_constraintTop_toBottomOf="@id/servicePort">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={vm.remotePort}"/>
+                  <com.google.android.material.textfield.TextInputEditText
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@={vm.remotePort}"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+              </com.google.android.material.textfield.TextInputLayout>
+          </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/save"

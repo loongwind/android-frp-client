@@ -6,4 +6,10 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+
+    <style name="EditStyle">
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/edit_border_color</item>
+    </style>
+
 </resources>

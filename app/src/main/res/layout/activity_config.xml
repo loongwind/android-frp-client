@@ -9,7 +9,7 @@
             name="vm"
             type="com.loongwind.frp.client.vm.ConfigVM" />
 
-        <import type="android.view.Gravity"/>
+        <import type="android.view.Gravity" />
 
     </data>
 
@@ -28,11 +28,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                app:navigationOnClickListener="@{()->vm.back()}"
                 app:popupTheme="@style/Theme.FrpClient.PopupOverlay"
-                app:title="新增服务"
-                app:titleGravity="@{Gravity.CENTER}"
                 app:showBack="@{true}"
-                app:navigationOnClickListener="@{()->vm.back()}"/>
+                app:title="新增服务"
+                app:titleGravity="@{Gravity.CENTER}" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,74 +41,89 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/serviceName"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="服务名称"
+                android:layout_margin="15dp"
+                android:background="@drawable/bg_round_rect"
+                android:padding="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/serviceName"
+                    style="@style/EditStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={vm.serviceName}"/>
+                    android:hint="服务名称"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={vm.serviceName}" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/serviceIp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="服务ip或域名"
-                app:layout_constraintTop_toBottomOf="@id/serviceName">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/serviceIp"
+                    style="@style/EditStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={vm.serviceIp}"/>
+                    android:hint="服务ip或域名"
+                    app:layout_constraintTop_toBottomOf="@id/serviceName">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={vm.serviceIp}" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/servicePort"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="服务端口"
-                app:layout_constraintTop_toBottomOf="@id/serviceIp">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/servicePort"
+                    style="@style/EditStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={vm.servicePort}"/>
+                    android:hint="服务端口"
+                    app:layout_constraintTop_toBottomOf="@id/serviceIp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={vm.servicePort}" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/serviceUserName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Token"
-                app:layout_constraintTop_toBottomOf="@id/servicePort">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/serviceUserName"
+                    style="@style/EditStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={vm.token}"/>
+                    android:hint="Token"
+                    app:layout_constraintTop_toBottomOf="@id/servicePort">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={vm.token}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/save"
                 style="@style/Widget.Material3.Button.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:onClick="@{()->vm.save()}"
                 android:text="保存"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginBottom="50dp"
-                android:onClick="@{()->vm.save()}"/>
+                app:layout_constraintRight_toRightOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
