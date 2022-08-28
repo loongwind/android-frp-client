@@ -13,6 +13,7 @@ import com.loongwind.frp.client.model.IniConfig
 import com.loongwind.frp.client.model.IniSection
 import com.loongwind.frp.client.repository.FrpcApiRepository
 import com.loongwind.frp.client.repository.IniRepository
+import io.objectbox.android.ObjectBoxLiveData
 import io.objectbox.annotation.Id
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,6 +31,8 @@ class HomeVM : BaseViewModel(), KoinComponent {
     private val iniRepository by inject<IniRepository>()
     private val frpcApiRepository by inject<FrpcApiRepository>()
 
+    private var configListData : ObjectBoxLiveData<IniConfig>? = null
+
     init {
         isConnect.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -43,16 +46,26 @@ class HomeVM : BaseViewModel(), KoinComponent {
                     }
                 }else{
                     postEvent(EVENT_STOP_SERVICE)
+                    clearSectionStatus()
                 }
             }
 
         })
     }
 
-    fun loadConfig(id: Long){
-        config.set(iniRepository.getConfigById(id))
+    private val configObserver : (List<IniConfig>)->Unit = {
+        config.set(it.first())
+        val newSections: List<IniSection> =
+            config.get()?.sections?.filter { it.name != COMMON }?.toList() ?: arrayListOf()
+        updateStatus(sectionList, newSections)
         sectionList.clear()
-        sectionList.addAll(config.get()?.sections?.filter { it.name != COMMON } ?: arrayListOf())
+        sectionList.addAll(newSections)
+    }
+
+    fun loadConfig(id: Long){
+        configListData?.removeObserver(configObserver)
+        configListData = iniRepository.getConfigLiveDataById(id)
+        configListData?.observeForever(configObserver)
     }
 
     private val onError : ErrorHandle ={
@@ -64,6 +77,24 @@ class HomeVM : BaseViewModel(), KoinComponent {
     private fun loadConfigStatus() = launch(onError = onError){
         delay(300)
         frpcApiRepository.getStatus(sectionList)
+    }
+
+    private fun updateStatus(oldSections : List<IniSection>, newSections : List<IniSection>){
+        if(!isConnect.get()){
+            return
+        }
+        newSections.forEach { newSection ->
+            val oldSection = oldSections.firstOrNull { it.name == newSection.name }
+            newSection.isRunning.set(oldSection?.isRunning?.get() ?: false)
+            newSection.error.set(oldSection?.error?.get() ?: "")
+        }
+    }
+
+    private fun clearSectionStatus(){
+        sectionList.forEach {
+            it.isRunning.set(false)
+            it.error.set("")
+        }
     }
 
 
@@ -78,5 +109,10 @@ class HomeVM : BaseViewModel(), KoinComponent {
 
     fun switchConnect(){
 //        postEvent(EVENT_START_SERVICE)
+    }
+
+    override fun onCleared() {
+        configListData?.removeObserver(configObserver)
+        super.onCleared()
     }
 }
