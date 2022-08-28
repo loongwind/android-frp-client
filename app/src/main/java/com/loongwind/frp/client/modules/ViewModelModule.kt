@@ -11,5 +11,6 @@ val viewModelModule = module{
     viewModel { FrpServiceDetailsVM() }
     viewModel { FrpAddConfigVM() }
     viewModel { HomeVM() }
+    viewModel { LogVM() }
 
 }

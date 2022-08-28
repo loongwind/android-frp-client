@@ -72,6 +72,10 @@ class HomeVM : BaseViewModel(), KoinComponent {
         postEvent(EVENT_SELECT)
     }
 
+    fun onLogClick(){
+        postEvent(EVENT_LOG)
+    }
+
     fun switchConnect(){
 //        postEvent(EVENT_START_SERVICE)
     }

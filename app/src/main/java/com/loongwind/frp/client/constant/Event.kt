@@ -9,3 +9,4 @@ const val EVENT_STOP_SERVICE = 0xf006
 const val EVENT_DETAILS = 0xf007
 const val EVENT_SELECT = 0xf008
 const val EVENT_RESULT = 0xf009
+const val EVENT_LOG = 0xf010

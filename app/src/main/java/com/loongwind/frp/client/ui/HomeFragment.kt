@@ -22,6 +22,7 @@ class HomeFragment : BaseBindingViewModelFragment<FragmentHomeBinding, HomeVM>()
             EVENT_START_SERVICE -> startFrpService()
             EVENT_STOP_SERVICE -> startFrpService()
             EVENT_SELECT -> toSelectConfig()
+            EVENT_LOG -> toLog()
         }
     }
 
@@ -50,5 +51,10 @@ class HomeFragment : BaseBindingViewModelFragment<FragmentHomeBinding, HomeVM>()
     private fun toSelectConfig(){
         val intent = Intent(activity, FrpcConfigListActivity::class.java)
         requestDataLauncher.launch(intent)
+    }
+
+    private fun toLog(){
+        val intent = Intent(activity, LogActivity::class.java)
+        startActivity(intent)
     }
 }

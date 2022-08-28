@@ -48,6 +48,10 @@
             android:name=".ui.FrpcConfigListActivity"
             android:theme="@style/Theme.FrpClient.NoActionBar"
             android:label="FrpcConfigList" />
+        <activity
+            android:name=".ui.LogActivity"
+            android:theme="@style/Theme.FrpClient.NoActionBar"
+            android:label="FrpcConfigList" />
     </application>
 
 </manifest>
