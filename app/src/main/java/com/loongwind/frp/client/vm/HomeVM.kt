@@ -7,6 +7,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import com.loongwind.ardf.base.BaseViewModel
 import com.loongwind.ardf.base.event.EVENT_ITEM_CLICK
+import com.loongwind.ardf.net.ErrorHandle
 import com.loongwind.frp.client.constant.*
 import com.loongwind.frp.client.model.IniConfig
 import com.loongwind.frp.client.model.IniSection
@@ -54,10 +55,18 @@ class HomeVM : BaseViewModel(), KoinComponent {
         sectionList.addAll(config.get()?.sections?.filter { it.name != COMMON } ?: arrayListOf())
     }
 
-    private fun loadConfigStatus() = launch{
+    private val onError : ErrorHandle ={
+        isConnect.set(false)
+        postHintText("启动失败，请检查配置是否正确")
+        true
+    }
+
+    private fun loadConfigStatus() = launch(onError = onError){
         delay(300)
         frpcApiRepository.getStatus(sectionList)
     }
+
+
 
     fun onSelectConfig(){
         postEvent(EVENT_SELECT)
