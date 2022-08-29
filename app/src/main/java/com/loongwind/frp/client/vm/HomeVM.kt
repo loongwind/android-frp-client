@@ -12,6 +12,7 @@ import com.loongwind.frp.client.constant.*
 import com.loongwind.frp.client.model.IniConfig
 import com.loongwind.frp.client.model.IniSection
 import com.loongwind.frp.client.repository.FrpcApiRepository
+import com.loongwind.frp.client.repository.GlobalCache
 import com.loongwind.frp.client.repository.IniRepository
 import com.loongwind.frp.client.repository.PreferencesRepository
 import io.objectbox.android.ObjectBoxLiveData
@@ -32,9 +33,12 @@ class HomeVM : BaseViewModel(), KoinComponent {
     private val iniRepository by inject<IniRepository>()
     private val frpcApiRepository by inject<FrpcApiRepository>()
     private val preferencesRepository by inject<PreferencesRepository>()
+    private val globalCache by inject<GlobalCache>()
 
     private var configListData : ObjectBoxLiveData<IniConfig>? = null
 
+    private var ignoreConnectChange = false
+    private var needLoadConfigStatus = false
 
 
     private val configObserver : (List<IniConfig>)->Unit = {
@@ -44,11 +48,19 @@ class HomeVM : BaseViewModel(), KoinComponent {
         updateStatus(sectionList, newSections)
         sectionList.clear()
         sectionList.addAll(newSections)
+        if(needLoadConfigStatus){
+            needLoadConfigStatus = false
+            loadConfigStatus()
+        }
     }
 
     init {
         isConnect.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                if(ignoreConnectChange){
+                    ignoreConnectChange = false
+                    return
+                }
                 if(isConnect.get()){
                     if(config.get() == null){
                         isConnect.set(false)
@@ -71,6 +83,11 @@ class HomeVM : BaseViewModel(), KoinComponent {
         val id = preferencesRepository.getSelectedConfigId()
         if(id > 0){
             loadConfig(id)
+            if(globalCache.serviceStarted){
+                ignoreConnectChange = true
+                isConnect.set(true)
+                needLoadConfigStatus = true
+            }
         }
     }
 

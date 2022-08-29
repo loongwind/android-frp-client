@@ -1,12 +1,10 @@
 package com.loongwind.frp.client.modules
 
-import com.loongwind.frp.client.repository.FileRepository
-import com.loongwind.frp.client.repository.FrpcApiRepository
-import com.loongwind.frp.client.repository.IniRepository
-import com.loongwind.frp.client.repository.PreferencesRepository
+import com.loongwind.frp.client.repository.*
 import org.koin.dsl.module
 
 val repositoryModule = module{
+    single { GlobalCache() }
     single { IniRepository() }
     single { FrpcApiRepository() }
     single { FileRepository() }

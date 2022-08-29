@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import com.loongwind.frp.client.ui.MainActivity
 import com.loongwind.frp.client.R
 import com.loongwind.frp.client.constant.*
+import com.loongwind.frp.client.repository.GlobalCache
 import com.loongwind.frp.client.repository.IniRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -19,6 +20,7 @@ import org.koin.core.component.inject
 class FrpcService : Service(), KoinComponent {
 
     private val iniRepository by inject<IniRepository>()
+    private val globalCache by inject<GlobalCache>()
 
     private var process: Process? = null
 
@@ -41,11 +43,13 @@ class FrpcService : Service(), KoinComponent {
                 this.filesDir
             )
         showNotification()
+        globalCache.serviceStarted = true
     }
 
     private fun stopFrpc(){
         process?.destroy()
         stopForeground(true)
+        globalCache.serviceStarted = false
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -62,6 +66,7 @@ class FrpcService : Service(), KoinComponent {
     override fun onDestroy() {
         process?.destroy()
         process = null
+        globalCache.serviceStarted = false
         super.onDestroy()
     }
 
