@@ -20,9 +20,9 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_mine"
-        android:name="com.loongwind.frp.client.FirstFragment"
+        android:name="com.loongwind.frp.client.ui.MineFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_mine">
 
     </fragment>
 </navigation>

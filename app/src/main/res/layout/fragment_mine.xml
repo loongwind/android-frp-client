@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.loongwind.frp.client.vm.MineVM" />
+
+        <import type="com.loongwind.frp.client.ext.IniExtKt" />
+
+        <import type="android.view.Gravity" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.FrpServiceFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.FrpClient.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.FrpClient.PopupOverlay"
+                app:title="我的"
+                app:titleGravity="@{Gravity.CENTER}" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingTop="20dp"
+            android:paddingRight="15dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+            <LinearLayout
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_rect"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include
+                    layout="@layout/layout_text_item"
+                    app:icon="@{@drawable/ic_traffic}"
+                    app:showArrow="@{false}"
+                    app:title='@{"免费流量"}'
+                    app:value='@{"880M / 1G"}' />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp" />
+
+                <include
+                    layout="@layout/layout_text_item"
+                    android:onClick="@{()->vm.onGetTraffic()}"
+                    app:icon="@{@drawable/ic_get_traffic}"
+                    app:showArrow="@{true}"
+                    app:title='@{"获取免费流量"}'
+                    app:value='@{""}' />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp" />
+
+                <include
+                    layout="@layout/layout_text_item"
+                    android:onClick="@{()->vm.onGetTraffic()}"
+                    app:icon="@{@drawable/ic_sign_in}"
+                    app:showArrow="@{true}"
+                    app:title='@{"签到"}'
+                    app:value='@{"今日未签到"}' />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/traffic_statistical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_rect"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top">
+
+                <include
+                    layout="@layout/layout_text_item"
+                    app:icon="@{@drawable/ic_traffic_month}"
+                    app:showArrow="@{true}"
+                    app:title='@{"本月流量"}'
+                    app:value='@{"1.25G"}' />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp" />
+
+                <include
+                    layout="@layout/layout_text_item"
+                    android:onClick="@{()->vm.onGetTraffic()}"
+                    app:icon="@{@drawable/ic_traffic_today}"
+                    app:showArrow="@{true}"
+                    app:title='@{"今日流量"}'
+                    app:value='@{"108.5M"}' />
+
+            </LinearLayout>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
