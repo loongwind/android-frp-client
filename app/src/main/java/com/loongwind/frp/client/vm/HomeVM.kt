@@ -13,6 +13,7 @@ import com.loongwind.frp.client.model.IniConfig
 import com.loongwind.frp.client.model.IniSection
 import com.loongwind.frp.client.repository.FrpcApiRepository
 import com.loongwind.frp.client.repository.IniRepository
+import com.loongwind.frp.client.repository.PreferencesRepository
 import io.objectbox.android.ObjectBoxLiveData
 import io.objectbox.annotation.Id
 import kotlinx.coroutines.Dispatchers
@@ -30,8 +31,20 @@ class HomeVM : BaseViewModel(), KoinComponent {
 
     private val iniRepository by inject<IniRepository>()
     private val frpcApiRepository by inject<FrpcApiRepository>()
+    private val preferencesRepository by inject<PreferencesRepository>()
 
     private var configListData : ObjectBoxLiveData<IniConfig>? = null
+
+
+
+    private val configObserver : (List<IniConfig>)->Unit = {
+        config.set(it.first())
+        val newSections: List<IniSection> =
+            config.get()?.sections?.filter { it.name != COMMON }?.toList() ?: arrayListOf()
+        updateStatus(sectionList, newSections)
+        sectionList.clear()
+        sectionList.addAll(newSections)
+    }
 
     init {
         isConnect.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback(){
@@ -51,21 +64,21 @@ class HomeVM : BaseViewModel(), KoinComponent {
             }
 
         })
+        initSelectedConfig()
     }
 
-    private val configObserver : (List<IniConfig>)->Unit = {
-        config.set(it.first())
-        val newSections: List<IniSection> =
-            config.get()?.sections?.filter { it.name != COMMON }?.toList() ?: arrayListOf()
-        updateStatus(sectionList, newSections)
-        sectionList.clear()
-        sectionList.addAll(newSections)
+    private fun initSelectedConfig(){
+        val id = preferencesRepository.getSelectedConfigId()
+        if(id > 0){
+            loadConfig(id)
+        }
     }
 
     fun loadConfig(id: Long){
         configListData?.removeObserver(configObserver)
         configListData = iniRepository.getConfigLiveDataById(id)
         configListData?.observeForever(configObserver)
+//        preferencesRepository.saveSelectedConfig(id)
     }
 
     private val onError : ErrorHandle ={

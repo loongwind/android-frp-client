@@ -1,6 +1,7 @@
 package com.loongwind.frp.client.modules
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.loongwind.ardf.net.ARDF_BASE_URL
 import com.loongwind.ardf.net.ARDF_DEBUG
 import com.loongwind.ardf.net.interceptor
@@ -34,6 +35,10 @@ val appModule = module {
 
     single(named(LOGFILE)) {
         File(get<Context>().filesDir, DEFAULT_LOG_FILE)
+    }
+
+    single {
+        get<Context>().getSharedPreferences("default", Context.MODE_PRIVATE)
     }
 
     includes(retrofitModule)

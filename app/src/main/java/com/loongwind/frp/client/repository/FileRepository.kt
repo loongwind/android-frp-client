@@ -7,7 +7,6 @@ import org.koin.core.qualifier.named
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import kotlin.math.log
 
 class FileRepository : KoinComponent {
 
