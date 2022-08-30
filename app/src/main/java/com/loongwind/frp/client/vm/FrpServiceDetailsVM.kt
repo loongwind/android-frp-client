@@ -58,6 +58,11 @@ class FrpServiceDetailsVM : BaseViewModel(), KoinComponent {
         }
     }
 
+    fun onDeleteSection(iniSection: IniSection){
+        iniRepository.deleteSection(iniSection)
+        clientConfigs.remove(iniSection)
+    }
+
     override fun onCleared() {
         configLiveData?.removeObserver(configObserver)
         super.onCleared()

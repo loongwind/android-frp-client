@@ -49,5 +49,10 @@ class FrpServiceVM : BaseViewModel(), KoinComponent {
         super.onCleared()
     }
 
+    fun onDelete(item : IniConfig){
+        configList.remove(item)
+        iniRepository.deleteConfig(item)
+    }
+
 
 }

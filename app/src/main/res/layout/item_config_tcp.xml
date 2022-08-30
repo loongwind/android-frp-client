@@ -4,75 +4,103 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.loongwind.frp.client.model.IniSection" />
 
-        <import type="com.loongwind.frp.client.ext.IniExtKt"/>
+        <import type="com.loongwind.frp.client.ext.IniExtKt" />
+
+        <variable
+            name="handler"
+            type="com.loongwind.frp.client.vm.FrpServiceDetailsVM" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.daimajia.swipe.SwipeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        app:drag_edge="right">
 
-        <TextView
-            android:id="@+id/name"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:text="@{item.name}"
-            android:textSize="14sp"
-            android:textColor="#000"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            tools:text="测试配置"/>
+            android:background="#F44336"
+            android:onClick="@{()->handler.onDeleteSection(item)}"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-        <TextView
-            android:id="@+id/desc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            app:layout_constraintLeft_toLeftOf="@id/name"
-            app:layout_constraintRight_toLeftOf="@+id/type"
-            android:layout_marginTop="2dp"
-            android:text='@{IniExtKt.get(item, "local_ip")+":"+IniExtKt.get(item, "local_port")+" -> "+IniExtKt.get(item, "remote_port")}'
-            app:layout_constraintBottom_toTopOf="@id/divider"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintHorizontal_weight="1"
-            android:textSize="10sp"
-            tools:text="127.0.0.1:80 -> 6080"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_delete" />
+        </FrameLayout>
 
-        <TextView
-            android:id="@+id/type"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/desc"
-            app:layout_constraintLeft_toRightOf="@id/desc"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/desc"
-            app:layout_constraintHorizontal_weight="1"
-            android:layout_marginLeft="20dp"
-            android:textSize="10sp"
-            android:text='@{IniExtKt.get(item, "type")}'
-            tools:text="TCP"/>
-
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/ic_right_arrow"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginRight="10dp"/>
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:onClick="@{()->handler.onConfigEdit(item)}">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="@{item.name}"
+                android:textColor="#000"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="测试配置" />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="5dp"
+                android:text='@{IniExtKt.get(item, "local_ip")+":"+IniExtKt.get(item, "local_port")+" -> "+IniExtKt.get(item, "remote_port")}'
+                android:textSize="10sp"
+                app:layout_constraintBottom_toTopOf="@id/divider"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@id/name"
+                app:layout_constraintRight_toLeftOf="@+id/type"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:text="127.0.0.1:80 -> 6080" />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text='@{IniExtKt.get(item, "type")}'
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/desc"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@id/desc"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/desc"
+                tools:text="TCP" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.daimajia.swipe.SwipeLayout>
 </layout>

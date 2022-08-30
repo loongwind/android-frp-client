@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.loongwind.frp.client.model.IniConfig" />
 
-        <import type="com.loongwind.frp.client.ext.IniExtKt"/>
+        <import type="com.loongwind.frp.client.ext.IniExtKt" />
 
         <variable
             name="handler"
@@ -16,60 +17,86 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.daimajia.swipe.SwipeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        app:drag_edge="right">
 
-        <TextView
-            android:id="@+id/name"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:text="@{item.name}"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            tools:text="测试服务"/>
+            android:background="#F44336"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:onClick="@{()->handler.onDelete(item)}">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_delete"/>
+        </FrameLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            app:layout_constraintLeft_toLeftOf="@id/name"
-            android:layout_marginTop="2dp"
-            android:text="@{IniExtKt.getAddrAndPort(item)}"
-            app:layout_constraintBottom_toTopOf="@id/divider"
-            android:layout_marginBottom="5dp"
-            android:textSize="12sp"
-            tools:text="192.169.1.1:7000"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_selected"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:visibility="@{handler.selectedConfig == item}"/>
-
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/ic_right_arrow"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginRight="10dp"
-            android:visibility="@{!handler.isSelectMode}"/>
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:onClick="@{()->handler.onItemClick(item)}">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="@{item.name}"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="测试服务" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="5dp"
+                android:text="@{IniExtKt.getAddrAndPort(item)}"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/divider"
+                app:layout_constraintLeft_toLeftOf="@id/name"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:text="192.169.1.1:7000" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_selected"
+                android:visibility="@{handler.selectedConfig == item}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_right_arrow"
+                android:visibility="@{!handler.isSelectMode}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </com.daimajia.swipe.SwipeLayout>
 </layout>

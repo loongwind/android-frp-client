@@ -49,7 +49,6 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:data="@{vm.configList}"
                 app:itemLayout="@{@layout/item_service}"
-                app:itemClick="@{(item,p)->vm.onItemClick(item)}"
                 app:itemEventHandler="@{vm}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

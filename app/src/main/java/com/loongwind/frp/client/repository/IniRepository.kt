@@ -32,6 +32,10 @@ class IniRepository : KoinComponent{
         }
     }
 
+    fun deleteConfig(iniConfig: IniConfig){
+        iniConfigBox.remove(iniConfig)
+    }
+
     fun getConfigByName(name: String) : IniConfig?{
         val config = iniConfigBox.query {
             equal(IniConfig_.name, name, QueryBuilder.StringOrder.CASE_INSENSITIVE)
@@ -84,5 +88,9 @@ class IniRepository : KoinComponent{
         section.configs.filter { it.id > 0 }.forEach {
             iniPropertyBox.put(it)
         }
+    }
+
+    fun deleteSection(iniSection: IniSection){
+        iniSectionBox.remove(iniSection)
     }
 }

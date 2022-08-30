@@ -125,7 +125,7 @@
                     android:background="@drawable/bg_round_rect"
                     app:data="@{vm.clientConfigs}"
                     app:itemLayout="@{@layout/item_config_tcp}"
-                    app:itemClick="@{(item, position) -> vm.onConfigEdit(item)}"/>
+                    app:itemEventHandler="@{vm}"/>
             </FrameLayout>
 
 
