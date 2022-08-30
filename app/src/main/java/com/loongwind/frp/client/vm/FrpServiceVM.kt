@@ -20,6 +20,7 @@ class FrpServiceVM : BaseViewModel(), KoinComponent {
     val selectedConfig = ObservableField<IniConfig>()
     var isSelectMode = false
     var clickItem:IniConfig? = null
+    val openedConfig = ObservableField<IniConfig>()
     private val dataChangeObserver : (List<IniConfig>)->Unit = { list ->
         configList.clear()
         configList.addAll(list)
@@ -52,6 +53,14 @@ class FrpServiceVM : BaseViewModel(), KoinComponent {
     fun onDelete(item : IniConfig){
         configList.remove(item)
         iniRepository.deleteConfig(item)
+    }
+
+    fun onDragOpened(item : IniConfig){
+        openedConfig.set(item)
+    }
+
+    fun clearDragOpened(){
+        openedConfig.set(null)
     }
 
 

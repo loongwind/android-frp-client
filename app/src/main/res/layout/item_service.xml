@@ -20,7 +20,11 @@
     <com.daimajia.swipe.SwipeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:drag_edge="right">
+        app:drag_edge="right"
+        app:clickToClose="true"
+        app:rightSwipeEnabled="@{!handler.isSelectMode}"
+        app:onOpened="@{()->handler.onDragOpened(item)}"
+        app:isClose="@{handler.openedConfig == item}">
 
         <FrameLayout
             android:layout_width="wrap_content"

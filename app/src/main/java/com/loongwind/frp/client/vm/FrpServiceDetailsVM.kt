@@ -25,6 +25,8 @@ class FrpServiceDetailsVM : BaseViewModel(), KoinComponent {
     var clickSection : IniSection? = null
     private var configLiveData : ObjectBoxLiveData<IniConfig>? = null
 
+    val openedConfigItem = ObservableField<IniSection>()
+
     private val configObserver : (List<IniConfig>)->Unit = {
         val iniConfig = it.firstOrNull()
         config.set(iniConfig)
@@ -66,6 +68,15 @@ class FrpServiceDetailsVM : BaseViewModel(), KoinComponent {
     override fun onCleared() {
         configLiveData?.removeObserver(configObserver)
         super.onCleared()
+    }
+
+
+    fun onDragOpened(item : IniSection){
+        openedConfigItem.set(item)
+    }
+
+    fun clearDragOpened(){
+        openedConfigItem.set(null)
     }
 
 
